@@ -45,6 +45,33 @@ describe('utils', () => {
         undefined,
       )
     })
+    it('generated caller can call without passing parameters', () => {
+      const call = generateEntryFunctionCaller(
+        mockSigner,
+        moduleId,
+        functionName,
+      )
+      call()
+      expect(mockSigner.signAndSubmitTransaction).toHaveBeenLastCalledWith(
+        {
+          type: payloadType,
+          function: `${moduleId}::${functionName}`,
+          type_arguments: [],
+          arguments: [],
+        },
+        undefined,
+      )
+      call({})
+      expect(mockSigner.signAndSubmitTransaction).toHaveBeenLastCalledWith(
+        {
+          type: payloadType,
+          function: `${moduleId}::${functionName}`,
+          type_arguments: [],
+          arguments: [],
+        },
+        undefined,
+      )
+    })
     it('generated caller can call with options', () => {
       const options: Partial<SubmitTransactionRequest> = {
         max_gas_amount: '9999',

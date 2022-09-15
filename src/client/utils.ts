@@ -16,14 +16,15 @@ import {
 export const generateEntryFunctionCaller =
   (signer: AptosSigner, moduleId: string, functionName: IdentifierWrapper) =>
   (
-    payload: Omit<EntryFunctionPayload, 'function'>,
-    options?: Partial<SubmitTransactionRequest>,
+    payload: Partial<Omit<EntryFunctionPayload, 'function'>> = {},
+    options: Partial<SubmitTransactionRequest> = undefined,
   ) =>
     signer.signAndSubmitTransaction(
       {
         type: 'entry_function_payload',
         function: `${moduleId}::${functionName}`,
-        ...payload,
+        type_arguments: payload?.type_arguments || [],
+        arguments: payload?.arguments || [],
       },
       options,
     )

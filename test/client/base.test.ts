@@ -37,6 +37,8 @@ describe('MoveModuleClient', () => {
           {
             type: 'entry_function_payload',
             function: `${moduleId}::${fn}`,
+            type_arguments: [],
+            arguments: [],
           },
           undefined,
         )
