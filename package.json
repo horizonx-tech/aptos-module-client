@@ -1,11 +1,13 @@
 {
   "name": "@horizonx/aptos-module-client",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "HorizonX",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "ci": "yarn clean && yarn coverage && jest-coverage-badges output ./badges",
     "build": "yarn clean && tsc -p tsconfig.build.json && tsc-alias",
