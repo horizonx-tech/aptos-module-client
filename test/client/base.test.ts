@@ -60,6 +60,26 @@ describe('MoveModuleClient', () => {
         )
       })
     })
+    it('can create instance with passed address', () => {
+      let mockSigner: AptosSigner = {
+        signAndSubmitTransaction: jest.fn(),
+      }
+      const address = '0x9'
+      const module: any = new AptosModuleClient(abi, mockSigner, address)
+      expect(module.signerOrClient).toBe(mockSigner)
+      expectedFunctions.forEach((fn) => {
+        module[fn]()
+        expect(mockSigner.signAndSubmitTransaction).toHaveBeenLastCalledWith(
+          {
+            type: 'entry_function_payload',
+            function: `${address}::${abi.name}::${fn}`,
+            type_arguments: [],
+            arguments: [],
+          },
+          undefined,
+        )
+      })
+    })
     it('if signer does not implement "getAccountResource", getters throw error', () => {
       let mockSigner: AptosSigner = {
         signAndSubmitTransaction: jest.fn(),

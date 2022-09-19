@@ -14,11 +14,15 @@ import {
 export class AptosModuleClient {
   readonly signerOrClient: SignerOrClient
 
-  constructor(abi: MoveModuleJSON, signerOrClient: SignerOrClient) {
+  constructor(
+    abi: MoveModuleJSON,
+    signerOrClient: SignerOrClient,
+    moduleAddress?: string,
+  ) {
     this.signerOrClient = signerOrClient
 
     const { moduleId, entryFunctionNames, keyStructNames, eventHandles } =
-      parseMoveModule(abi)
+      parseMoveModule({ ...abi, address: moduleAddress || abi.address })
     if ('signAndSubmitTransaction' in signerOrClient)
       entryFunctionNames.forEach((name) => {
         defineReadOnly(
