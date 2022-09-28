@@ -38,7 +38,8 @@ export type AptosSigner = {
 
 export type SignerOrClient = AptosClient | AptosSigner
 
-export type TypedMoveResource<T = any> = Omit<MoveResource, 'data'> & {
+export type TypedMoveResource<T = any> = {
+  type: MoveStructTag
   data: T
 }
 
