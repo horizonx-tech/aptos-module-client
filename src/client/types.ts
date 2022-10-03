@@ -1,11 +1,10 @@
-import { AptosClient, MaybeHexString } from 'aptos'
+import { AptosClient, MaybeHexString, Types } from 'aptos'
 import {
   Event,
   MoveFunction,
   MoveModule,
   MoveResource,
   MoveStructTag,
-  PendingTransaction,
   SubmitTransactionRequest,
   TransactionPayload,
 } from 'aptos/dist/generated'
@@ -22,7 +21,7 @@ export type AptosSigner = {
   signAndSubmitTransaction: (
     payload: TransactionPayload,
     options?: Partial<SubmitTransactionRequest>,
-  ) => Promise<PendingTransaction>
+  ) => Promise<Types.HashValue>
   getAccountResource?: (
     accountAddress: MaybeHexString,
     resourceType: MoveStructTag,
