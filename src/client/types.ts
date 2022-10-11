@@ -10,7 +10,7 @@ export type MoveModuleJSON = Omit<Types.MoveModule, 'exposed_functions'> & {
 
 export type AptosSigner = {
   signAndSubmitTransaction: (
-    payload: Types.TransactionPayload,
+    payload: Types.TransactionPayload_EntryFunctionPayload,
     options?: Partial<Types.SubmitTransactionRequest>,
   ) => Promise<Types.HashValue>
   getAccountResource?: AptosClient['getAccountResource']
