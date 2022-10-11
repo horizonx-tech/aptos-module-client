@@ -1,11 +1,4 @@
-import { MaybeHexString } from 'aptos'
-import {
-  EntryFunctionPayload,
-  IdentifierWrapper,
-  MoveStruct,
-  MoveStructField,
-  SubmitTransactionRequest,
-} from 'aptos/dist/generated'
+import { MaybeHexString, Types } from 'aptos'
 import {
   AptosSigner,
   EventGetterParams,
@@ -14,10 +7,14 @@ import {
 } from './types'
 
 export const generateEntryFunctionCaller =
-  (signer: AptosSigner, moduleId: string, functionName: IdentifierWrapper) =>
   (
-    payload: Partial<Omit<EntryFunctionPayload, 'function'>> = {},
-    options: Partial<SubmitTransactionRequest> = undefined,
+    signer: AptosSigner,
+    moduleId: string,
+    functionName: Types.IdentifierWrapper,
+  ) =>
+  (
+    payload: Partial<Omit<Types.EntryFunctionPayload, 'function'>> = {},
+    options: Partial<Types.SubmitTransactionRequest> = undefined,
   ) =>
     signer.signAndSubmitTransaction(
       {
@@ -98,7 +95,8 @@ export const throwEventsGetterRequired = () => {
 
 const isString = (arg: any): arg is string => typeof arg === 'string'
 
-const isResource = (struct: MoveStruct) => struct.abilities.includes('key')
+const isResource = (struct: Types.MoveStruct) =>
+  struct.abilities.includes('key')
 
-const isEventHandle = (field: MoveStructField) =>
+const isEventHandle = (field: Types.MoveStructField) =>
   isString(field.type) && field.type.startsWith('0x1::event::EventHandle')

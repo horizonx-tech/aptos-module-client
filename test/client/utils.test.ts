@@ -1,4 +1,4 @@
-import { SubmitTransactionRequest } from 'aptos/dist/generated'
+import { Types } from 'aptos'
 import { AptosSigner } from 'src'
 import {
   defineReadOnly,
@@ -73,7 +73,7 @@ describe('utils', () => {
       )
     })
     it('generated caller can call with options', () => {
-      const options: Partial<SubmitTransactionRequest> = {
+      const options: Partial<Types.SubmitTransactionRequest> = {
         max_gas_amount: '9999',
       }
       const call = generateEntryFunctionCaller(

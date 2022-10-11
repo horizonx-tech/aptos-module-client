@@ -1,17 +1,8 @@
-import { AptosClient, MaybeHexString, Types } from 'aptos'
-import {
-  Event,
-  MoveFunction,
-  MoveModule,
-  MoveResource,
-  MoveStructTag,
-  SubmitTransactionRequest,
-  TransactionPayload,
-} from 'aptos/dist/generated'
+import { AptosClient, Types } from 'aptos'
 
-export type MoveModuleJSON = Omit<MoveModule, 'exposed_functions'> & {
+export type MoveModuleJSON = Omit<Types.MoveModule, 'exposed_functions'> & {
   exposed_functions: Array<
-    Omit<MoveFunction, 'visibility'> & {
+    Omit<Types.MoveFunction, 'visibility'> & {
       visibility: 'private' | 'public' | 'friend'
     }
   >
@@ -19,34 +10,27 @@ export type MoveModuleJSON = Omit<MoveModule, 'exposed_functions'> & {
 
 export type AptosSigner = {
   signAndSubmitTransaction: (
-    payload: TransactionPayload,
-    options?: Partial<SubmitTransactionRequest>,
+    payload: Types.TransactionPayload,
+    options?: Partial<Types.SubmitTransactionRequest>,
   ) => Promise<Types.HashValue>
-  getAccountResource?: (
-    accountAddress: MaybeHexString,
-    resourceType: MoveStructTag,
-    query?: { ledgerVersion?: BigInt },
-  ) => Promise<MoveResource>
-  getEventsByEventHandle?: (
-    address: MaybeHexString,
-    eventHandleStruct: MoveStructTag,
-    fieldName: string,
-    query?: { start?: BigInt; limit?: number },
-  ) => Promise<Event[]>
+  getAccountResource?: AptosClient['getAccountResource']
+  getEventsByEventHandle?: AptosClient['getEventsByEventHandle']
 }
 
 export type SignerOrClient = AptosClient | AptosSigner
 
-export type TypedMoveResource<T = any> = {
-  type: MoveStructTag
+export type TypedMoveResource<T = any> = Omit<Types.MoveResource, 'data'> & {
   data: T
 }
 
-export type TypedEvent<T = any> = Omit<Event, 'data'> & {
+export type TypedVersionedEvent<T = any> = Omit<
+  Types.VersionedEvent,
+  'data'
+> & {
   data: T
 }
 
 export type EventGetterParams = {
   typeParameter?: string
-  query?: { start?: BigInt; limit?: number }
+  query?: Parameters<AptosClient['getEventsByEventHandle']>[3]
 }
