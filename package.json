@@ -1,6 +1,6 @@
 {
   "name": "@horizonx/aptos-module-client",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "author": "HorizonX",
   "license": "MIT",
   "main": "dist/index.js",
