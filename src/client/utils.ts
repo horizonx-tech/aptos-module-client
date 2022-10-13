@@ -3,6 +3,9 @@ import {
   AptosSigner,
   EventGetterParams,
   MoveModuleJSON,
+  MoveModuleJSONMinified,
+  MoveStructFieldMinified,
+  MoveStructMinified,
   SignerOrClient,
 } from './types'
 
@@ -59,7 +62,7 @@ export const parseMoveModule = ({
   name,
   exposed_functions,
   structs,
-}: MoveModuleJSON) => {
+}: MoveModuleJSON | MoveModuleJSONMinified) => {
   const moduleId = `${address}::${name}`
   const keyStructs = structs.filter(isResource)
   return {
@@ -95,8 +98,9 @@ export const throwEventsGetterRequired = () => {
 
 const isString = (arg: any): arg is string => typeof arg === 'string'
 
-const isResource = (struct: Types.MoveStruct) =>
+const isResource = (struct: Types.MoveStruct | MoveStructMinified) =>
   struct.abilities.includes('key')
 
-const isEventHandle = (field: Types.MoveStructField) =>
-  isString(field.type) && field.type.startsWith('0x1::event::EventHandle')
+const isEventHandle = (
+  field: Types.MoveStructField | MoveStructFieldMinified,
+) => isString(field.type) && field.type.startsWith('0x1::event::EventHandle')

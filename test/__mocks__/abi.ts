@@ -1,4 +1,4 @@
-import { MoveModuleJSON } from 'src'
+import { MoveModuleJSON, MoveModuleJSONMinified } from 'src'
 
 export const MOCK_ABI: MoveModuleJSON = {
   address: '0x1',
@@ -85,6 +85,68 @@ export const MOCK_ABI: MoveModuleJSON = {
       is_native: false,
       abilities: ['drop', 'store'],
       generic_type_params: [],
+      fields: [{ name: 'amount', type: 'u64' }],
+    },
+  ],
+}
+
+export const MOCK_ABI_MINIFIED: MoveModuleJSONMinified = {
+  address: '0x1',
+  name: 'coin',
+  exposed_functions: [
+    {
+      name: 'transfer',
+      is_entry: true,
+      generic_type_params: [{}],
+      params: ['address', 'u64'],
+    },
+    {
+      name: 'balance',
+      is_entry: false,
+      generic_type_params: [{}],
+      params: ['address'],
+    },
+  ],
+  structs: [
+    {
+      name: 'Coin',
+      abilities: [],
+      fields: [{ name: 'value', type: 'u64' }],
+    },
+    {
+      name: 'CoinInfo',
+      abilities: ['key'],
+      fields: [
+        { name: 'name' },
+        { name: 'symbol' },
+        { name: 'decimals' },
+        { name: 'supply' },
+      ],
+    },
+    {
+      name: 'CoinStore',
+      abilities: ['key'],
+      fields: [
+        { name: 'coin' },
+        { name: 'frozen' },
+        {
+          name: 'deposit_events',
+          type: '0x1::event::EventHandle<0x1::coin::DepositEvent>',
+        },
+        {
+          name: 'withdraw_events',
+          type: '0x1::event::EventHandle<0x1::coin::WithdrawEvent>',
+        },
+      ],
+    },
+    {
+      name: 'DepositEvent',
+      abilities: [],
+      fields: [{ name: 'amount', type: 'u64' }],
+    },
+    {
+      name: 'WithdrawEvent',
+      abilities: [],
       fields: [{ name: 'amount', type: 'u64' }],
     },
   ],

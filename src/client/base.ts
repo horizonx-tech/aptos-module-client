@@ -1,5 +1,5 @@
 import { pascalCase } from 'change-case'
-import { MoveModuleJSON, SignerOrClient } from './types'
+import { MoveModuleJSON, MoveModuleJSONMinified, SignerOrClient } from './types'
 import {
   defineReadOnly,
   generateAccountResourceGetter,
@@ -15,7 +15,7 @@ export class AptosModuleClient {
   readonly signerOrClient: SignerOrClient
 
   constructor(
-    abi: MoveModuleJSON,
+    abi: MoveModuleJSON | MoveModuleJSONMinified,
     signerOrClient: SignerOrClient,
     moduleAddress?: string,
   ) {
