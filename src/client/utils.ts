@@ -15,19 +15,22 @@ export const generateEntryFunctionCaller =
     moduleId: string,
     functionName: Types.IdentifierWrapper,
   ) =>
-  (
+  async (
     payload: Partial<Omit<Types.EntryFunctionPayload, 'function'>> = {},
-    options: Partial<Types.SubmitTransactionRequest> = undefined,
-  ) =>
-    signer.signAndSubmitTransaction(
+    options?: Partial<Types.SubmitTransactionRequest>,
+  ) => {
+    const res = await signer.signAndSubmitTransaction(
       {
         type: 'entry_function_payload',
         function: `${moduleId}::${functionName}`,
-        type_arguments: payload?.type_arguments || [],
-        arguments: payload?.arguments || [],
+        type_arguments: payload.type_arguments || [],
+        arguments: payload.arguments || [],
       },
       options,
     )
+    if (!res) return
+    return isString(res) ? res : res.hash
+  }
 
 export const generateAccountResourceGetter =
   (client: SignerOrClient, moduleId: string, structName: string) =>

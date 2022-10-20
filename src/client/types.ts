@@ -32,9 +32,9 @@ export type MoveModuleJSONMinified = {
 
 export type AptosSigner = {
   signAndSubmitTransaction: (
-    payload: Types.EntryFunctionPayload & { type?: 'entry_function_payload' },
+    payload: Types.TransactionPayload_EntryFunctionPayload,
     options?: Partial<Types.SubmitTransactionRequest>,
-  ) => Promise<Types.HashValue>
+  ) => Promise<Types.HashValue | { hash: Types.HexEncodedBytes }>
   getAccountResource?: AptosClient['getAccountResource']
   getEventsByEventHandle?: AptosClient['getEventsByEventHandle']
 }

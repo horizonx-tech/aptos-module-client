@@ -92,6 +92,33 @@ describe('utils', () => {
         options,
       )
     })
+    describe('generated caller can return hash', () => {
+      const hash = 'hash'
+      it('Signer returns string', async () => {
+        const mockFn = jest.fn()
+        mockFn.mockReturnValue(hash)
+        mockSigner.signAndSubmitTransaction = mockFn
+        const call = generateEntryFunctionCaller(
+          mockSigner,
+          moduleId,
+          functionName,
+        )
+        const res = await call()
+        expect(res).toBe(hash)
+      })
+      it('Signer returns { hash: string }', async () => {
+        const mockFn = jest.fn()
+        mockFn.mockReturnValue({ hash })
+        mockSigner.signAndSubmitTransaction = mockFn
+        const call = generateEntryFunctionCaller(
+          mockSigner,
+          moduleId,
+          functionName,
+        )
+        const res = await call()
+        expect(res).toBe(hash)
+      })
+    })
   })
   describe('generateAccountResourceGetter', () => {
     let mockSigner: AptosSigner
